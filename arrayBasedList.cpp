@@ -43,7 +43,7 @@ public:
     tElemLista erase() {
         tElemLista item;
         int i;
-        if (curr > 0 || curr >= listSize) {
+        if (curr < 0 || curr >= listSize) {
             return -1;
         }
         item = listArray[curr];

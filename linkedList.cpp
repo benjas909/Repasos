@@ -22,7 +22,13 @@ class tLista {
             pos = 0;
         }
         void clear() {
-
+            tNodo* ptr = head;
+            tNodo* temp;
+            while(ptr != NULL) {
+                temp = ptr->sig;
+                delete ptr;
+                ptr = temp;
+            }
         }
         int insert(tElemLista item) {
             tNodo* aux = curr->sig;
@@ -78,6 +84,30 @@ class tLista {
                 pos++;
             }
         }
+        void printItem(){
+            cout << curr->info;
+        }
 
 
 };
+
+int main() {
+    tLista test_list;
+    tElemLista cosa;
+    int i, wea;
+    cout << "cantidad de cosas: "; 
+    cin >> i;
+
+    for (int j = 0; j < i; j++) {
+        cout << "cosa a insertar: ";
+        cin >> wea;
+        test_list.insert(wea);
+        // test_list.next();
+    }
+    for (int k = 0; k < i; k++){
+        test_list.next();
+        test_list.printItem();
+    }
+
+
+}
