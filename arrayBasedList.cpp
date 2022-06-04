@@ -64,7 +64,7 @@ public:
             curr--;
         }
     }
-    void tLista() {
+    void next() {
         if (curr < listSize){
             curr++;
         }
