@@ -30,14 +30,23 @@ class tLista {
             tNodo* ptrt = tail;
             tNodo* temp1;
             tNodo* temp2;
-            while(ptrh != NULL && ptrt != NULL && ptrh->sig != ptrt && ptrt->ant != ptrh) {
+            while(listSize > 0) {
+                cout <<  "largo " << listSize << endl;
+
+                if (listSize == 1) {
+                    delete ptrh; listSize--;
+                    break;
+                }
+
                 temp1 = ptrh->sig;
                 temp2 = ptrt->ant;
+                
                 delete ptrh; listSize--;
                 delete ptrt; listSize--;
                 ptrh = temp1;
                 ptrt = temp2;
             }
+            cout <<  "largo " << listSize << endl;
         }
         
         // int insertFront(tElemLista item) {
@@ -69,6 +78,7 @@ class tLista {
         void erase() {
             tNodo* aux = curr->sig;
             curr->sig = curr->sig->sig;
+            curr->sig->ant = curr;
             delete aux;
             listSize--;
         }
@@ -112,6 +122,14 @@ class tLista {
         int length() {
             return listSize;
         }
+        void append(tElemLista item){
+            tNodo* aux = tail->ant;
+            tNodo* aux2 = tail->ant->sig;
+            tail->ant = tail->ant->sig = new tNodo;
+            tail->ant->info = item;
+            tail->ant->ant = aux;
+            tail->ant->sig = aux2;
+        }
 
 
 };
@@ -126,8 +144,7 @@ int main() {
     for (int j = 0; j < i; j++) {
         cout << "cosa a insertar: ";
         cin >> wea;
-        test_list.insert(wea);
-        test_list.next();
+        test_list.append(wea);
     }
     test_list.moveToStart();
     for (int k = 0; k < i; k++){
