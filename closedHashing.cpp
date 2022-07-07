@@ -87,8 +87,8 @@ class hashDict {
             return NULL;
         }
     }
-}
+};
 
 int main() {
-
+    return 0;
 }
