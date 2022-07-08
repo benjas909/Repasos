@@ -1,4 +1,5 @@
 #include <iostream>
+#include <hash.hpp>
 using namespace std;
 
 #define M 1000000
@@ -7,79 +8,82 @@ using namespace std;
 typedef int keyType;
 
 typedef string infoType;
-    
-struct slot {
-    keyType key;
-    infoType info;
-};
-
 
 class hashDict {
     private:
-        slot HT[M];
+        slot *H;
         int count, C;
-        keyType EMPTYKEY;
-        infoType EMPTYSLOT;
 
-        int h (keyType k) {
-            return k % M;
-        }
-
-        int h2(keyType k) {
-            return k % M;
-        }
-
-        int p(keyType k, int i) {
-        return i * C;
-    }
-
-        
     public:
-        hashDict() {
-            count = 0;
-            C = 9;
-        }
+        hashDict();
+
         ~hashDict(){;};
 
-        int hashInsert (keyType k, infoType I) {
-            int start, i;
-            int pos = start = h(k);
+        int h (keyType k);
 
-            for (i = 1; HT[pos].key != EMPTY && HT[pos].key != k; i++) {
-                pos = (start + p(k, i)) % M;    // next slot in the sequence.
-            }
+        int h2(keyType k);
 
-            if (HT[pos].key == k) {
-                return 0;   // insertion failed: key is already in the table.
-            }
+        int p(keyType k, int i);
 
-            else {
-                HT[pos].key = k;
-                HT[pos].info = I;
-                return 1;   // insertion successful.
-            }
-        }
+        int hashInsert (keyType k, infoType I);
 
-        infoType hashSearch (keyType k) {
-            int start, i;
-            int pos = start = h(k);
-
-            for (i = 1; HT[pos].key != EMPTY && HT[pos].key != k; i++) {
-                pos = (start + p(k, i)) % M;
-            }
-
-            if (HT[pos].key == k) {
-                return HT[pos].info;
-            }
-
-            else {
-                return "-1";
-            }
-        }
-
-
-
+        infoType hashSearch (keyType k);
 };
+
+hashDict::hashDict() {
+    H = new slot[MAX_LENGTH];
+    count = 0;
+    C = 9;
+}
+
+int hashDict::h(keyType k) {
+    return k % M;
+}
+
+int hashDict::h2(keyType k){
+    return k % M;
+}
+
+int hashDict::p(keyType k, int i) {
+    return i * C;
+}
+
+int hashDict::hashInsert (keyType k, infoType I) {
+    int start, i;
+    int pos = start = h(k);
+
+    for (i = 1; H[pos].key != EMPTY && H[pos].key != k; i++) {
+        pos = (start + p(k, i)) % M;    // next slot in the sequence.
+    }
+
+    if (H[pos].key == k) {
+        return 0;   // insertion failed: key is already in the table.
+    }
+
+    else {
+        H[pos].key = k;
+        H[pos].value = I;
+        return 1;   // insertion successful.
+    }
+}
+
+infoType hashDict::hashSearch (keyType k) {
+    int start, i;
+    int pos = start = h(k);
+
+    for (i = 1; H[pos].key != EMPTY && H[pos].key != k; i++) {
+        pos = (start + p(k, i)) % M;
+    }
+
+    if (H[pos].key == k) {
+        return H[pos].value;
+    }
+
+    else {
+        return "-1";
+    }
+}
+
 
 int main(){
     hashDict hashtable;
